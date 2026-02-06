@@ -2,178 +2,178 @@
 <html>
 
 <head>
-        <title>Mandelbrot Set Zoom Viewer</title>
-        <link rel="icon" href="mandelbrot-image.png" type="image/png" />
-        <meta charset="UTF-8">
-        <meta name="description" content="Mandelbrot Set Zoom Viewer">
-        <meta name="author" content="Ian Howey">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-        body {
-            margin: 0px;
-            padding: 0px;
-            overflow: hidden;
-            white-space: nowrap;
-        }
+    <title>Mandelbrot Set Zoom Viewer</title>
+    <link rel="icon" href="mandelbrot-image.png" type="image/png" />
+    <meta charset="UTF-8">
+    <meta name="description" content="Mandelbrot Set Zoom Viewer">
+    <meta name="author" content="Ian Howey">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    body {
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 
-        canvas {
-            margin: 0px;
-            padding: 0px;
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
+    canvas {
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
 
-        .settings-container {
-            position: absolute;
-            margin: 0px;
-            padding: 0.5rem;
-            top: 0px;
-            left: 0px;
-            background-color: rgba(255, 255, 255, 1.0);
-            color: black;
-            font-family: 'Times New Roman', Times, serif;
-            border-bottom-right-radius: 1.2rem;
-            width: auto;
-        }
+    .settings-container {
+        position: absolute;
+        margin: 0px;
+        padding: 0.5rem;
+        top: 0px;
+        left: 0px;
+        background-color: rgba(255, 255, 255, 1.0);
+        color: black;
+        font-family: 'Times New Roman', Times, serif;
+        border-bottom-right-radius: 1.2rem;
+        width: auto;
+    }
 
-        #settingsButton {
-            display: none;
-        }
+    #settingsButton {
+        display: none;
+    }
 
-        #settingsButton:checked~#contentCheckboxLabel>svg {
-            margin-left: 0.8rem;
-        }
+    #settingsButton:checked~#contentCheckboxLabel>svg {
+        margin-left: 0.8rem;
+    }
 
-        #contentCheckboxLabel {
-            cursor: pointer;
-        }
+    #contentCheckboxLabel {
+        cursor: pointer;
+    }
 
-        svg {
-            transition: all 0.05s ease;
-            display: block;
-            margin-left: 0.8rem;
-        }
+    svg {
+        transition: all 0.05s ease;
+        display: block;
+        margin-left: 0.8rem;
+    }
 
-        .settings-content {
-            display: block;
-            overflow: hidden;
-            width: 0px;
-            height: 0px;
-            padding-top: 0px;
-            transition: all 0.05s ease;
-            white-space: nowrap;
-            line-height: 1.6;
-        }
+    .settings-content {
+        display: block;
+        overflow: hidden;
+        width: 0px;
+        height: 0px;
+        padding-top: 0px;
+        transition: all 0.05s ease;
+        white-space: nowrap;
+        line-height: 1.6;
+    }
 
-        #settingsButton:checked~.settings-content {
-            display: block;
-            width: 13rem;
-            height: 30rem;
-            padding-top: 0.8rem;
-        }
+    #settingsButton:checked~.settings-content {
+        display: block;
+        width: 13rem;
+        height: 30rem;
+        padding-top: 0.8rem;
+    }
 
-        #iterBox, #lowResBox, #dragSenseBox, #scrollSenseBox, #blurBox, #periodBox, #numColorsBox, #c1Box, #c2Box, #c3Box, #c4Box, #c5Box, #c6Box, #c7Box, #c8Box {
-            transition: opacity 0.05s;
-        }
+    #iterBox, #lowResBox, #dragSenseBox, #scrollSenseBox, #blurBox, #periodBox, #numColorsBox, #c1Box, #c2Box, #c3Box, #c4Box, #c5Box, #c6Box, #c7Box, #c8Box {
+        transition: opacity 0.05s;
+    }
 
-        #iterInput, #lowResInput, #dragSenseInput, #scrollSenseInput, #blurInput, #periodInput, #numColorsInput {
-                display: inline-block;
-                width: 4rem;
-                border-radius: 10vh;
-                background-color: rgba(200, 200, 200, 1.0);
-                border: none;
-                padding-left: 0.4rem;
-        }
+    #iterInput, #lowResInput, #dragSenseInput, #scrollSenseInput, #blurInput, #periodInput, #numColorsInput {
+        display: inline-block;
+        width: 4rem;
+        border-radius: 10vh;
+        background-color: rgba(200, 200, 200, 1.0);
+        border: none;
+        padding-left: 0.4rem;
+    }
 
-        #c1Input, #c2Input, #c3Input, #c4Input, #c5Input, #c6Input, #c7Input, #c8Input {
-                width: 6rem;
-                border: none;
-                padding-left: 0.4rem;
-        }
+    #c1Input, #c2Input, #c3Input, #c4Input, #c5Input, #c6Input, #c7Input, #c8Input {
+        width: 6rem;
+        border: none;
+        padding-left: 0.4rem;
+    }
 
-        #c1Box{
-                initial-value: "#ff0000";
-        }
+    #c1Box{
+        initial-value: "#ff0000";
+    }
 
-        #c2Box{
-                initial-value: "#ff7f00";
-        }
+    #c2Box{
+        initial-value: "#ff7f00";
+    }
 
-        #c3Box{
-                initial-value: "#ffff00";
-        }
+    #c3Box{
+        initial-value: "#ffff00";
+    }
 
-        #c4Box{
-                initial-value: "#7fff00";
-        }
+    #c4Box{
+        initial-value: "#7fff00";
+    }
 
-        #c5Box{
-                initial-value: "#00ff00";
-        }
+    #c5Box{
+        initial-value: "#00ff00";
+    }
 
-        #c6Box{
-                initial-value: "#00ff7f";
-        }
+    #c6Box{
+        initial-value: "#00ff7f";
+    }
 
-        #c7Box{
-                initial-value: "#007fff";
-        }
+    #c7Box{
+        initial-value: "#007fff";
+    }
 
-        #c8Box{
-                initial-value: "#7f007f";
-        }
+    #c8Box{
+        initial-value: "#7f007f";
+    }
         
-        #resetButton {
-            background-color: rgba(200, 200, 200, 1.0);
-            border-top-left-radius: 10vh;
-            border-bottom-left-radius: 10vh;
-            width: fit-content;
-            padding-right: 0.3rem;
-            padding-left: 0.6rem;
-            margin-left: auto;
-            margin-right: 0px;
-            margin-top: 0.6rem;
-            display: inline-block;
-            font-size: small;
-            border-right: 0.5px solid black;
-            transition: background-color 0.2s;
-            cursor: pointer;
-        }
+    #resetButton {
+        background-color: rgba(200, 200, 200, 1.0);
+        border-top-left-radius: 10vh;
+        border-bottom-left-radius: 10vh;
+        width: fit-content;
+        padding-right: 0.3rem;
+        padding-left: 0.6rem;
+        margin-left: auto;
+        margin-right: 0px;
+        margin-top: 0.6rem;
+        display: inline-block;
+        font-size: small;
+        border-right: 0.5px solid black;
+        transition: background-color 0.2s;
+        cursor: pointer;
+    }
 
-        #saveButton {
-            background-color: rgba(200, 200, 200, 1.0);
-            border-top-right-radius: 10vh;
-            border-bottom-right-radius: 10vh;
-            width: fit-content;
-            padding-right: 0.6rem;
-            padding-left: 0.3rem;
-            margin-left: -4px;
-            margin-right: auto;
-            margin-top: 0.6rem;
-            display: inline-block;
-            font-size: small;
-            border-left: 0.5px solid black;
-            transition: background-color 0.2s;
-            cursor: pointer;
-        }
+    #saveButton {
+        background-color: rgba(200, 200, 200, 1.0);
+        border-top-right-radius: 10vh;
+        border-bottom-right-radius: 10vh;
+        width: fit-content;
+        padding-right: 0.6rem;
+        padding-left: 0.3rem;
+        margin-left: -4px;
+        margin-right: auto;
+        margin-top: 0.6rem;
+        display: inline-block;
+        font-size: small;
+        border-left: 0.5px solid black;
+        transition: background-color 0.2s;
+        cursor: pointer;
+    }
 
-        #saveButton:hover, #resetButton:hover {
-            background-color: rgba(200, 200, 200, 1.0);
-        }
+    #saveButton:hover, #resetButton:hover {
+        background-color: rgba(200, 200, 200, 1.0);
+    }
 
-        hr {
-            border: 0;
-            height: 0;
-            border-top: 1px solid rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-            margin-top: 1px;
-            margin-bottom: 0.15rem;
-        }
-        </style>
+    hr {
+        border: 0;
+        height: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+        margin-top: 1px;
+        margin-bottom: 0.15rem;
+    }
+    </style>
 </head>
 
-<body>
+<body oncontextmenu="return false;">
         <canvas id="Canvas"></canvas>
         <div class="settings-container">
         <input type="checkbox" id="settingsButton" />
@@ -199,11 +199,11 @@
                 <div class="settings-content" nowrap>
                         <hr>
                         <input type="checkbox" name="inverseBox" id="inverseBox">
-                        <label for="inverseBox">Inverse rendering: </label><br>
+                        <label for="inverseBox">Inverse rendering</label><br>
                         <input type="checkbox" name="gradientBox" id="gradientBox">
-                        <label for="gradientBox">Color gradient: </label><br>
+                        <label for="gradientBox">Color gradient</label><br>
                         <input type="checkbox" name="autoBox" id="autoBox">
-                        <label for="autoBox">Auto iterations: </label><br>
+                        <label for="autoBox">Auto iterations</label><br>
                         <label id="iterBox" for="iterInput" nowrap>Iterations: <input id="iterInput" type="number" min="1" max="100000" step="1" /><br>
                         <label id="lowResBox" for="lowResInput" nowrap>Low resolution: <input id="lowResInput" type="number" min="0.05" max="1" step="0.05" /></br>
                         <label id="dragSenseBox" for="dragSenseInput" nowrap>Drag sensitivity: <input id="dragSenseInput" type="number" min="0.25" max="4.0" step="0.25" /></br>
